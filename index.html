@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>システム警告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 基本スタイル */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo UI', sans-serif;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            position: relative;
+        }
+
+        .virus-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 警告アイコンの動き */
+        .warning-icon {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: pulse 1s infinite;
+        }
+
+        .warning-title {
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: blink 1.5s infinite;
+        }
+
+        .virus-details {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .virus-name {
+            color: #cc0000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* プログレスバー */
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ff6666);
+            width: 0%;
+            animation: loading 3s ease-in-out infinite;
+        }
+
+        /* ボタン */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-danger { background: #ff4444; color: white; }
+        .btn-danger:hover { background: #cc0000; transform: translateY(-2px); }
+        .btn-secondary { background: #666; color: white; }
+        .btn-secondary:hover { background: #444; transform: translateY(-2px); }
+
+        /* 背景に浮遊するアラート */
+        .floating-alerts {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-alert {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(2px);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: float 4s linear forwards;
+        }
+
+        /* ネタバラシ画面 */
+        .reveal-message {
+            display: none;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        /* アニメーション定義 */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+        @keyframes loading {
+            0% { width: 0%; }
+            50% { width: 75%; }
+            100% { width: 100%; }
+        }
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="floating-alerts" id="floatingAlerts"></div>
+
+<div class="virus-container">
+    <div id="warningScreen">
+        <svg class="warning-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L1 21H23L12 2Z" fill="#FFD700" stroke="#FF4444" stroke-width="2" />
+            <path d="M12 8V13" stroke="#FF4444" stroke-width="3" stroke-linecap="round" />
+            <circle cx="12" cy="17" r="1.5" fill="#FF4444" />
+        </svg>
+<img src="y.jpg" width="100">
+        
+        <h1 class="warning-title">野獣先輩が検出されました！</h1>
+        
+        <div class="virus-details">
+            <div class="virus-name">tadokoro.Win1919.kouzi.810</div>
+            <div class="infected-count">
+                感染ファイル数: <strong>114,514</strong> 個
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="scanning-text" id="statusText">
+                野獣先輩をスキャン中...
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-danger" onclick="startCleaning()">今すぐ駆除</button>
+                <button class="btn btn-secondary" onclick="revealPrank()">詳細を見る</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reveal-message" id="revealMessage">
+        <div>
+            野獣先輩<br>「いい世来いよ」
+        </div>
+        <button class="btn btn-secondary" onclick="resetPrank()" style="margin-top: 20px;">戻る</button>
+    </div>
+</div>
+
+<script>
+    // 浮遊するエラーメッセージの生成
+    function createFloatingAlert() {
+        const messages = ["⚠️ エラーコード810", "🚨 野獣先輩による攻撃を発見！", "🔒 田所浩二によりこのサイトへのアクセスはブロックされています", "💀1919個のファイルをスキャン中... ", "⚠️ 危険"];
+        const alert = document.createElement('div');
+        alert.className = 'floating-alert';
+        alert.textContent = messages[Math.floor(Math.random() * messages.length)];
+        alert.style.left = Math.random() * 90 + '%';
+        
+        document.getElementById('floatingAlerts').appendChild(alert);
+        
+        // アニメーションが終わったら削除
+        setTimeout(() => {
+            alert.remove();
+        }, 4000);
+    }
+
+    // 一定間隔で生成開始
+    setInterval(createFloatingAlert, 700);
+
+    // 駆除ボタンの動作
+    function startCleaning() {
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => btn.disabled = true);
+        document.getElementById('statusText').textContent = 'データを修復中... (810%)';
+        
+        setTimeout(() => {
+            revealPrank();
+        }, 2500);
+    }
+
+    // 画面切り替え
+    function revealPrank() {
+        document.getElementById('warningScreen').style.display = 'none';
+        document.getElementById('revealMessage').style.display = 'block';
+    }
+
+    // リセット
+    function resetPrank() {
+        document.getElementById('warningScreen').style.display = 'block';
+        document.getElementById('revealMessage').style.display = 'none';
+        document.getElementById('statusText').textContent = '野獣先輩をスキャン中...';
+        
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(btn => btn.disabled = false);
+    }
+</script>
+
+</body>
+</html>
+
